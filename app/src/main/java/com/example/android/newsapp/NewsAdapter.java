@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 public class NewsAdapter extends ArrayAdapter<NewsClass> {
 
+    private static final String TEE = "T";
+
         public NewsAdapter(Context context, ArrayList<NewsClass> news) {
             // Here, we initialize the ArrayAdapter's internal storage for the context and the list.
             // the second argument is used when the ArrayAdapter is populating a single TextView.
@@ -41,8 +43,15 @@ public class NewsAdapter extends ArrayAdapter<NewsClass> {
             TextView newsSectionTextView = (TextView) listItemView.findViewById(R.id.news_section);
             newsSectionTextView.setText(currentPosition.getSectionName());
 
+            String toSplit = currentPosition.getNewsDate();
+            String dateExtract = "";
+
+            if (toSplit.contains(TEE)) {
+                String[] parts = toSplit.split(TEE);
+                dateExtract = parts[0];
+            }
             TextView newsDateTextView = (TextView) listItemView.findViewById(R.id.news_date);
-            newsDateTextView.setText(currentPosition.getNewsDate());
+            newsDateTextView.setText(dateExtract);
 
             return listItemView;
 
