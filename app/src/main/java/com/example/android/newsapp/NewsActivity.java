@@ -38,11 +38,6 @@ public class NewsActivity extends AppCompatActivity implements android.support.v
     private static final int EARTHQUAKE_LOADER_ID = 1;
 
     /**
-     * URL for earthquake data from the USGS dataset
-     */
-    private static final String USGS_REQUEST_URL = "https://content.guardianapis.com/search?q=debate&tag=politics/politics&from-date=2014-01-01&api-key=test";
-
-    /**
      * Adapter for the list of earthquakes
      */
     private NewsAdapter newsAdapter;
@@ -116,11 +111,25 @@ public class NewsActivity extends AppCompatActivity implements android.support.v
     @NonNull
     @Override
     public Loader<List<NewsClass>> onCreateLoader(int i, @Nullable Bundle bundle) {
-        return new NewsLoader(this, USGS_REQUEST_URL);
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority("content.guardianapis.com")
+                .appendPath("search")
+                .appendQueryParameter("show-tags", "contributor")
+                .appendQueryParameter("api-key", "0b29018d-dd8b-49a1-89d5-6f4e0e9a4053");
+
+        String myUrl = builder.build().toString();
+
+        return new NewsLoader(this, myUrl);
     }
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<NewsClass>> loader, List<NewsClass> newsClasses) {
+
+        // Set empty state text to display "No earthquakes found."
+        emptyStateTextView.setText(R.string.no_earthquakes);
+
         // Clear the adapter of previous earthquake data
         // Hide loading indicator because the data has been loaded
         View loadingIndicator = findViewById(R.id.loading_spinner);

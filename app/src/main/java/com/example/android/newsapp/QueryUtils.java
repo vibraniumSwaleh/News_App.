@@ -124,29 +124,35 @@ public final class QueryUtils {
             // Extract the JSONArray associated with the key called "features",
             // which represents a list of features (or news).
             JSONObject responeJsonObject = baseJsonResponse.getJSONObject("response");
-            JSONArray newsArray = responeJsonObject.getJSONArray("results");
+            JSONArray resultsArray = responeJsonObject.getJSONArray("results");
 
             // For each news in the newsArray, create an {@link Earthquake} object
-            for (int i = 0; i < newsArray.length(); i++) {
+            for (int i = 0; i < resultsArray.length(); i++) {
 
                 // Get a single news at position i within the list of news
-                JSONObject newsObject = newsArray.getJSONObject(i);
+                JSONObject newsObject = resultsArray.getJSONObject(i);
 
-                // Extract the value for the key called "mag"
+                // Extract the value for the key called "news title"
                 String title = newsObject.getString("webTitle");
 
-                // Extract the value for the key called "place"
+                // Extract the value for the key called "news section"
                 String section = newsObject.getString("sectionName");
 
-                // Extract the value for the key called "time"
+                // Extract the value for the key called "news publication date"
                 String date = newsObject.getString("webPublicationDate");
 
-                // Extract the value for the key called "url"
+                // Extract the value for the key called "news url"
                 String webUrl = newsObject.getString("webUrl");
+
+                JSONArray tagArray = newsObject.getJSONArray("tags");
+
+                JSONObject tagsObject = tagArray.getJSONObject(0);
+
+                String newsAuthor = tagsObject.getString("webTitle");
 
                 // Create a new {@link Earthquake} object with the magnitude, location, time,
                 // and url from the JSON response.
-                NewsClass newsClassObject = new NewsClass(title, section, date, webUrl);
+                NewsClass newsClassObject = new NewsClass(title, section, date, webUrl, newsAuthor);
 
                 // Add the new {@link news} to the list of news.
                 news.add(newsClassObject);

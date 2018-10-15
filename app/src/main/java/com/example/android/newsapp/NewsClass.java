@@ -7,13 +7,15 @@ public class NewsClass {
         private String sectionName;
         private String newsDate;
         private String newsURL;
+        private String newsAuthor;
 
         //Class constructor
-        public NewsClass(String title, String section, String date, String url){
+        public NewsClass(String title, String section, String date, String url, String author){
             newsTitle = title;
             sectionName = section;
             newsDate = date;
             newsURL = url;
+            newsAuthor = author;
         }
 
         //method to get magnitude
@@ -35,5 +37,8 @@ public class NewsClass {
         public String getNewsURL(){
             return newsURL;
         }
+
+        //method to get news author
+        public String getNewsAuthor(){return newsAuthor;}
     }
 
